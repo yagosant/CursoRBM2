@@ -1,5 +1,10 @@
 const titleElement = document.getElementById("title");
 
-if (titleElement) titleElement.innerText = "Projeto Base do Yago";
+enum Yago {
+    "nome"= "Yago dos Santos",
+    "GitHub" = "https://github.com/yagosant",
+    "Linkdln" = "https://www.linkedin.com/in/yago-dos-santos-ribeiro-a45b6990/?ppe=1"
+    }
 
-console.log("hello world");
+if (titleElement) titleElement.innerText = `Projeto Base do ${Yago["nome"]}`;// pegando os dados de um enum
+
