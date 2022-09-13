@@ -12,7 +12,7 @@ if (titleElement)
 function geraNumAleatorio() {
     return Math.floor(Math.random() * 11);
 }
-function arrendodado(numero) {
+function arredondaNumero(numero) {
     return parseFloat(numero.toFixed(2));
 }
 //exercicio 1 
@@ -32,8 +32,8 @@ function mediaNumeros(num1, num2, num3, num4, num5) {
 console.log(`A Média de ${numero1} e ${numero2}, ${numero3}, ${numero4}, ${numero5} é = ${mediaNumeros(numero1, numero2, numero3, numero4, numero5)}`);
 //exercicio 3
 function calcularIMC(altura, peso) {
-    return arrendodado(peso / (altura * altura));
+    return arredondaNumero(peso / (altura * altura));
 }
-const peso = arrendodado(Math.random() * 201);
-const altura = arrendodado(Math.random() * 2);
+const peso = arredondaNumero(Math.random() * 201);
+const altura = arredondaNumero(Math.random() * 2);
 console.log(`O seu IMC é baseado no peso: ${peso} e na altura: ${altura} é = ${calcularIMC(altura, peso)}`);
