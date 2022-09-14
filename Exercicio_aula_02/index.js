@@ -30,7 +30,6 @@ const loja = [
         categoria: "acessorios",
     },
 ];
-//console.log(loja[1].categoria); - pegando os valores do trem
 function categoriaFiltro(categoria) {
     const retornoLoja = loja.filter((produto) => {
         if (produto.categoria === categoria)
@@ -39,9 +38,7 @@ function categoriaFiltro(categoria) {
     });
     console.log(retornoLoja);
 }
-categoriaFiltro('blusa');
 //exercicio 2
-//Faça uma função que retorne um array, com arrays dentro (matriz) que contenham a sequencia de numeros de 1 a 27, separados por 3 em cada array interno
 const numerosArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 let novoArray = [];
 function partirArray(array) {
@@ -56,5 +53,8 @@ function partirArray(array) {
     }
     return novoArrayPartido;
 }
+//usar para teste exercicio 1
+categoriaFiltro('blusa');
+//usar para teste exercicio 2
 novoArray = partirArray(numerosArray);
 console.log(JSON.stringify(novoArray));
