@@ -58,3 +58,10 @@ categoriaFiltro('blusa');
 //usar para teste exercicio 2
 novoArray = partirArray(numerosArray);
 console.log(JSON.stringify(novoArray));
+//Exercicio 3
+//Faça uma função que retorna o array que é resultado do exercício acima, só que ao invés de grupos de 3, vai retornar em cada array interno, a soma dos itens. Exemplo:[[6],[15]...]
+const arraySomado = novoArray.map((array) => {
+    return array.reduce((acc, array) => {
+        acc + array;
+    });
+});
