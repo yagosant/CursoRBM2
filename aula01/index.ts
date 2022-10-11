@@ -1,43 +1,24 @@
 import { Recipe } from "./types";
 
+const searchInput = document.querySelector("#search-input");
+const searchButton = document.querySelector("#search-button");
+
+(searchButton as HTMLButtonElement)?.addEventListener("click",()=>{
+  render();
+});
+
 //pega uma string e dividi em array mediante ao campo de paramentro
 function splitSearch(search: string){
-  return search.split(",");
-
+  const parseSearch = search.replace(/\s/g, "").split(",");
+  return parseSearch.filter((search)=>search);
 }
 
 //função para pegar os dados, criando o tipo genérico de receita
 async function getData(): Promise<Recipe[]>{
     const request = await fetch("https://receitas-server.vercel.app/api");
     const data = await request.json();
-    console.log(data);
     return data;
 }
-
-//funcao de filtro dos ingredientes - Apenas o filtro especifico
-/* async function filterByIngredients(ingredient: string){
-    const filterData = await getData();
-    const retorno  = filterData.filter(data => {
-      return data.Ingredients.includes(ingredient)
-    });
-   console.log(retorno);
-   
-} */
-
-//filtro multi itens do mesmo nome
-/* async function filterByIngredients(ingredient: string){
-  const data = await getData();
-  const filterData  = data.filter(recipe => {
-    const ingredientIncludes =  recipe.Ingredients.filter(recipeIngredient=>{
-      //joga tudo para minusculo
-      return recipeIngredient.toLowerCase().includes(ingredient)
-    });
-
-    if(ingredientIncludes.length) return recipe;
-  });
- console.log(filterData);
-}
-  */
 
 //função de filtro para mais de um item
 async function filterByIngredients(ingredient: string){
@@ -48,6 +29,8 @@ async function filterByIngredients(ingredient: string){
 
     //verifica se tem mais de um item na pesquisa
     const isMultiple= splitSearch(ingredient).length >1;
+
+    if(!ingredient) return data;
 
     //caso tenhamos apenas 1 ingrediente
     if(!isMultiple) {
@@ -77,10 +60,55 @@ async function filterByIngredients(ingredient: string){
     if(acumulador.length === searchValues.length) return true;
   }
   });
- console.log(filterData);
+ return filterData;
 }
- 
-//getData();
 
-filterByIngredients("butter,dark");
+async function render(){
+  //const listElement = document.querySelector("#container-grid-receitas");
+  const data = await getData();
+  const listElement = document.getElementById("container-grid-receitas");
+
+  try{
+    if(listElement){
+    listElement.innerHTML = '';
+    listElement.innerHTML = `<h1>|Carregando...</h1>`;
+
+    const items = await filterByIngredients((searchInput as HTMLInputElement).value);
+    listElement.innerHTML = '';
+      
+  
+      items.forEach((item) =>{
+        listElement.innerHTML += `
+        <a href="#abrirModal">
+          <div class="card-receitas">
+             <img src="${item.urlImage}" alt="" class="card-receitas-poster" id="card-receitas-poster--${item}">
+                  <div class="card-receitas-info-container">
+                   <div class="card-receitas-info-container-header">
+                      <h4 class="card-receitas-info-title" id="card-receitas-title-${item}"> ${item.Name} - &nbsp;
+                      <span class="card-receitas-info-notes" id="card-receitas-nota-${item}">${item.Author} </span></h4>
+                   </div>
+                   </div>
+                  </div>
+                  </a>
+                  <div id="abrirModal" class="modal">
+                  
+                  <div>
+                  <a href="#fechar" title="Fechar" class="fechar">x</a>
+                  <h2 id="card-receitas-title-${item}">${item.Name} </h2>
+                 <h3 id="card-receitas-nota-${item}">${item.Author} </h3>
+                 <b><p>Ingredientes:</p></b>
+                  <p id="card-receitas-title-${item}">${item.Ingredients}</p>    
+                  </div>
+                </div>
+        `;
+      })
+    }
+  }catch{
+    if(listElement){
+    listElement.innerHTML = `<h1>Não foi possivel carregar...</h1>`;
+    }
+  }
+
+}
+render();
 
